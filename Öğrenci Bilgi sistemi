@@ -1,0 +1,132 @@
+/* Main sınıfı */
+public class Main {
+
+    public static void main(String[] args) {
+        Teacher t1 = new Teacher("Mahmut Hoca", "TRH", "555");
+        Teacher t2 = new Teacher("Graham Bell", "FZK", "0000");
+        Teacher t3 = new Teacher("Külyutmaz", "BIO", "1111");
+
+        Course tarih = new Course("Tarih", "101", "TRH");
+        tarih.addTeacher(t1);
+
+        Course fizik = new Course("Fizik", "102", "FZK");
+        fizik.addTeacher(t2);
+
+        Course biyo = new Course("Biyoloji", "101", "BIO");
+        biyo.addTeacher(t3);
+
+        Student s1 = new Student("İnek Şaban","123","4",tarih,fizik,biyo);
+        s1.addBulkExamNote(100,100);
+        s1.isPass();
+
+
+    }
+
+}
+
+/* Course Sınıfı */
+
+public class Course {
+    Teacher teacher;
+    String name;
+    String code;
+    String prefix;
+    int note;
+
+
+    Course(String name, String code, String prefix) {
+        this.name = name;
+        this.code = code;
+        this.prefix = prefix;
+        int note = 0;
+    }
+
+    void addTeacher(Teacher teacher){
+        if (teacher.branch.equals(this.prefix)){
+            this.teacher=teacher;
+
+        }else {
+            System.out.println("Öğretmen ve ders bölümleri uyuşmuyor!");
+        }
+
+    }
+
+    void printTeacher(){
+        this.teacher.print();
+    }
+}
+
+  /* Student Sınıfı */
+public class Student {
+    Course c1;
+    Course c2;
+    Course c3;
+    String name;
+    String stuNo;
+    String classes;
+    double avarage;
+    boolean isPass;
+
+    Student(String name, String stuNo, String classes, Course c1, Course c2, Course c3) {
+        this.name = name;
+        this.stuNo = stuNo;
+        this.classes = classes;
+        this.c1 = c1;
+        this.c2 = c2;
+        this.c3 = c3;
+        this.avarage = 0.0;
+        this.isPass = false;
+    }
+
+    void addBulkExamNote(int note1, int note2) {
+        if (note1 >= 0 && note1 <= 100) {
+            this.c1.note = note1;
+        }
+        if (note2 >= 0 && note2 <= 100) {
+            this.c2.note = note2;
+        }
+
+
+    }
+
+    void isPass() {
+        System.out.println("==================================");
+        this.avarage = ((this.c1.note)*0.20 + (this.c2.note)*0.80 );
+        if (this.avarage > 55) {
+
+            System.out.println("Hababam sınıfı uyanıyor !");
+            this.isPass = true;
+        } else {
+            System.out.println("Hababam sınıfı sınıfta kaldı !");
+            this.isPass=false;
+        }
+        printNote();
+    }
+
+    void printNote() {
+        System.out.println(this.c1.name + " Sözlü Notu : " + this.c1.note);
+        System.out.println(this.c1.name + " Sınav Notu : " + this.c2.note);
+        System.out.println("Ortalamanız : " + this.avarage);
+    }
+}
+
+
+/* Teacher Sınıfı */
+public class Teacher {
+    String name;
+    String mpno;
+    String branch;
+
+    Teacher(String name, String branch, String mpno) {
+        this.name = name;
+        this.mpno = mpno;
+        this.branch = branch;
+    }
+
+    void print(){
+        System.out.println("Adı : " + this.name);
+        System.out.println("Telefonu : " + this.mpno);
+        System.out.println("Bölümü : " + this.branch);
+
+    }
+}
